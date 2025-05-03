@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Checkout</title>
+  <link rel="stylesheet" href="css/global.css">
+  <style>
+    /* General Styles */
+  body {
+    background-color: #121212; /* Dark background for contrast */
+    color: white;
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    padding: 0;
+  }
+
+  /* Booking Container */
+  .booking-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: calc(100vh - 50px); /* Adjust height to account for footer */
+    padding: 20px;
+  }
+
+  /* Booking Card */
+  .booking-card {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    backdrop-filter: blur(10px);
+    padding: 40px;
+    max-width: 600px;
+    width: 100%;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  }
+
+  /* Heading */
+  h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #ff0770; /* Accent color for headings */
+  }
+
+  /* Checkout Content */
+  #checkoutContent {
+    margin-top: 20px;
+    overflow-y: auto;
+    max-height: 400px; /* Adjust as needed */
+    padding: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.05);
+  }
+
+  /* Booking Details */
+  #checkoutContent div {
+    margin-bottom: 20px;
+    padding: 15px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.1);
+  }
+
+  #checkoutContent h3 {
+    margin: 0 0 10px;
+    color: #ff8bc1;
+  }
+
+  #checkoutContent p {
+    margin: 5px 0;
+    line-height: 1.5;
+  }
+
+  /* Media (Video/Image) */
+  #checkoutContent video,
+  #checkoutContent img {
+    display: block;
+    margin: 10px auto;
+    max-width: 100%;
+    border-radius: 10px;
+  }
+
+  /* Checkout Button */
+  .checkout-button {
+    display: block;
+    width: 100%;
+    background-color: #ff0077;
+    color: white;
+    padding: 15px;
+    border-radius: 5px;
+    font-size: 18px;
+    font-weight: bold;
+    transition: background-color 0.3s;
+    border: none;
+    cursor: pointer;
+    margin-top: 20px;
+  }
+
+  .checkout-button:hover {
+    background-color: #ff8bc1; /* Lighter shade on hover */
+  }
+
+  /* Footer */
+  footer {
+    text-align: center;
+    padding: 10px 0;
+    background: rgba(0, 0, 0, 0.75);
+    position: relative;
+    bottom: 0;
+    width: 100%;
+    color: white;
+  }
+
+  /* Responsive Styles */
+  @media (max-width: 768px) {
+    .booking-card {
+      padding: 20px;
+    }
+
+    .checkout-button {
+      font-size: 16px;
+    }
+
+    #checkoutContent {
+      max-height: 300px; /* Reduce height for smaller screens */
+    }
+}
+  </style>
+</head>
+<body>
+
+  <header>
+    <nav class="navbar">
+        <div class="logo">POiVY Studio</div>
+        <div class="hamburger">&#9776;</div> <!-- Burger Icon -->
+        <ul class="navlinks">
+            <li><a href="home.html">Home</a></li>
+            <li><a href="service.html">Services</a></li>
+            <li><a href="about.html">About</a></li>
+        </ul>
+        <div class="socials">
+            <a href="https://www.instagram.com/nobelletypico" target="_blank"><img src="assets/img/ig logo.png" alt="Instagram"></a>
+            <a href="https://www.tiktok.com/@nobelletypico" target="_blank"><img src="assets/img/tiktok logo.png" alt="TikTok"></a>
+            <a href="https://www.facebook.com/profile.php?id=100041652650485&mibextid=ZbWKwL" target="_blank"><img src="assets/img/fb logo.png" alt="Facebook"></a>
+        </div>
+    </nav>
+  </header>
+
+  <div class="booking-container">
+    <div class="booking-card">
+      <h2>Checkout</h2>
+      <div id="checkoutContent">
+        <!-- Booking details will be populated here -->
+      </div>
+      <button onclick="confirmBooking()" class="checkout-button">Proceed to Confirmation</button>
+    </div>
+  </div>
+
+  <footer>&copy; 2025 POiVY Studio. All rights reserved.</footer>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const checkoutContent = document.getElementById('checkoutContent');
+      const bookings = JSON.parse(localStorage.getItem('bookingDetails')) || [];
+
+      if (bookings.length === 0) {
+        checkoutContent.innerHTML = '<p>No bookings found.</p>';
+        return;
+      }
+
+      bookings.forEach((booking, index) => {
+        const bookingDiv = document.createElement('div');
+        bookingDiv.innerHTML = `
+          <h3>Booking ${index + 1}</h3>
+          <p><strong>Name:</strong> ${booking.name}</p>
+          <p><strong>Email:</strong> ${booking.email}</p>
+          <p><strong>Service:</strong> ${booking.service}</p>
+          <p><strong>Date:</strong> ${booking.date}</p>
+          <p><strong>Requests:</strong> ${booking.requests}</p>
+          <p><strong>Price:</strong> ${booking.price}</p>
+          ${booking.media ? (booking.media.endsWith('.mp4') ? `
+            <video width="320" height="240" controls autoplay muted loop>
+              <source src="${booking.media}" type="video/mp4">
+              Your browser does not support the video tag.
+            </video>` : `
+            <img src="${booking.media}" alt="Service Image" style="width:320px;height:auto;margin-top:10px;">`
+          ) : ''}
+          <hr>
+        `;
+        checkoutContent.appendChild(bookingDiv);
+      });
+    });
+
+    function confirmBooking() {
+      window.location.href = 'confirmation.html';
+    }
+  </script>
+
+</body>
+</html>

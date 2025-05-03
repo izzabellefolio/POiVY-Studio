@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>POiVY Studio | Sign Up</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background-image: url("assets/img/bgpform.jpg");
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            overflow-x: hidden;
+            padding-bottom: 70px; /* Space for the fixed footer */
+        }
+
+        .container {
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            width: 100%;
+            padding-left: 15%;
+        }
+
+        .form-container {
+            padding: 60px;
+            border-radius: 10px;
+            text-align: center;
+            width: 800px;
+            max-width: 100%;
+            min-height: 580px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            background: rgba(255, 255, 255, 0);
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0);
+        }
+
+        header {
+            display: flex;
+            align-items: center;
+            justify-content: center; 
+            gap: 10px;
+            margin-bottom: 5px;
+        }
+
+        header img {
+            height: 50px;
+            width: auto;
+        }
+
+        header h1 {
+            font-size: 28px;
+            font-weight: bold;
+            color: black;
+            margin: 0;
+        }
+
+        h2 {
+            font-size: 22px;
+            font-weight: 600;
+            text-align: center;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+        }
+
+        .inputs {
+            text-align: left;
+        }
+
+        .inputs input {
+            width: 100%;
+            max-width: 700px;
+            padding: 12px;
+            border: 1px solid #aaa;
+            border-radius: 5px;
+            font-size: 14px;
+            background: white;
+            color: black;
+            margin-bottom: 15px;
+        }
+
+        .submit-btn {
+            background: black;
+            color: white;
+            border: none;
+            padding: 12px;
+            font-size: 16px;
+            width: 100%;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .submit-btn:hover {
+            background: #444;
+        }
+
+        .l-login, .privacy-link {
+            font-size: 14px;
+            text-align: center;
+            margin-top: 15px;
+            color: black;
+        }
+
+        .l-login a, .privacy-link a {
+            color: black;
+            text-decoration: underline;
+            font-weight: bold;
+        }
+
+        .l-login a:hover {
+            color: chocolate;
+        }
+
+        /* Back Arrow */
+        .back-arrow {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            font-size: 24px;
+            color: black;
+            cursor: pointer;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+        }
+
+        .back-arrow span {
+            margin-right: 10px;
+        }
+
+        .back-arrow:hover {
+            color: chocolate;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .container {
+                justify-content: center;
+                padding-left: 0;
+            }
+
+            .form-container {
+                width: 90%;
+            }
+
+            .back-arrow {
+                font-size: 20px;
+                left: 10px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .back-arrow {
+                font-size: 18px;
+                top: 15px;
+                left: 15px;
+            }
+        }
+
+        /* Fixed Footer */
+        footer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 50px;
+            background: rgba(0, 0, 0, 0.75);
+            backdrop-filter: blur(10px);
+            color: rgb(255, 255, 255);
+            text-align: center;
+            line-height: 50px;
+            font-size: 16px;
+            z-index: 1000;
+            box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.5);
+        }
+    </style>
+</head>
+<body>
+    <!-- Back Arrow Link -->
+    <a href="index.html" class="back-arrow">
+        <span>&#8592;</span> Back to Homepage
+    </a>
+
+    <div class="container">
+        <div class="form-container">
+            <header>
+                <h1>POiVY Studio</h1>
+            </header>
+            <h2>Sign Up</h2>
+            <form id="signup-form" action="service.html" method="GET">
+                <div class="inputs">
+                    <label for="first-name">First Name</label>
+                    <input type="text" id="first-name" name="first-name" required>
+                    
+                    <label for="last-name">Last Name</label>
+                    <input type="text" id="last-name" name="last-name" required>
+
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+
+                <input type="submit" value="Submit" class="submit-btn">
+            </form>
+            <p class="l-login">Already have an account? <a href="service.html">Log In Here!</a></p>
+        </div>
+    </div>
+
+    <footer>&copy; 2025 POiVY Studio. All rights reserved.</footer>
+
+    <script>
+        const form = document.querySelector('#signup-form');
+
+form.addEventListener('submit', async function(event) {
+    event.preventDefault();
+
+    const firstName = document.getElementById('first-name').value.trim();
+    const lastName = document.getElementById('last-name').value.trim();
+    const email = document.getElementById('email').value.trim();
+
+    if (!firstName || !lastName || !email) {
+        alert("Please fill in all the fields.");
+        return;
+    }
+
+    const data = { firstName, lastName, email };
+
+    try {
+        await fetch("https://script.google.com/macros/s/AKfycbyWIFLxqfdS9pvpnnNmMThZVfbAMLU-ekiat0_wTlvGHpXkFZdN-Vh_I0OM45JziVE/exec", {
+            method: "POST",
+            mode: "no-cors",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(data),
+        });
+
+        alert("Sign-up successful! Redirecting...");
+        window.location.href = "service.html";
+    } catch (error) {
+        alert("Error saving data. Please try again.");
+        console.error(error);
+    }
+        });
+    </script>
+</body>
+</html>
