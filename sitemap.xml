@@ -1,7 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url><loc>https://izzabellefolio.github.io/poivy-booking-site/</loc></url>
-  <url><loc>https://izzabellefolio.github.io/poivy-booking-site/booking.html</loc></url>
-  <url><loc>https://izzabellefolio.github.io/poivy-booking-site/checkout.html</loc></url>
-  <url><loc>https://izzabellefolio.github.io/poivy-booking-site/confirmation.html</loc></url>
+  <url>
+    <loc>https://izzabellefolio.github.io/POiVY-Studio/</loc>
+  </url>
+  <url>
+    <loc>https://izzabellefolio.github.io/POiVY-Studio/home.html</loc>
+  </url>
+  <url>
+    <loc>https://izzabellefolio.github.io/POiVY-Studio/service.html</loc>
+  </url>
+  <url>
+    <loc>https://izzabellefolio.github.io/POiVY-Studio/booking.html</loc>
+  </url>
+  <url>
+    <loc>https://izzabellefolio.github.io/POiVY-Studio/checkout.html</loc>
+  </url>
+  <url>
+    <loc>https://izzabellefolio.github.io/POiVY-Studio/confirmation.html</loc>
+  </url>
 </urlset>
