@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://izzabellefolio.github.io/POiVY-Studio/sitemap.xml
