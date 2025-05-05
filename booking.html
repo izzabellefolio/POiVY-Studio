@@ -2,9 +2,8 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>POiVY Studio | Booking Page</title>
+  <title>Booking Page</title>
   <link rel="stylesheet" href="css/global.css">
-
   <!-- SEO Meta Tags -->
   <meta name="description" content="POiVY Studio - Book and explore creative services with ease.">
   <meta name="keywords" content="POiVY Studio, photo studio, booking, creative services">
@@ -22,7 +21,7 @@
   <header>
     <nav class="navbar">
         <div class="logo">POiVY Studio</div>
-        <div class="hamburger">&#9776;</div> <!-- Burger Icon -->
+        <div class="hamburger">&#9776;</div>
         <ul class="navlinks">
             <li><a href="home.html">Home</a></li>
             <li><a href="service.html">Services</a></li>
@@ -37,17 +36,14 @@
 </header>
 
 <div class="booking-container">
-  <!-- Left: Video Section -->
   <div class="booking-image">
     <p>Select A Service For A Preview</p>
     <video id="serviceVideo" autoplay muted loop>
       <source src="assets/vids/default-video.mp4" type="video/mp4">
       Your browser does not support HTML5 video.
     </video>
-    
   </div>
 
-  <!-- Right: Form Section -->
   <div class="booking-card">
     <form id="bookingForm" class="booking-form">
       <h2>Book a Service</h2>
@@ -86,7 +82,7 @@
 
       <div class="form-group">
         <label for="price">Price Preview:</label>
-        <input type="text" id="price" placeholder="$0.00">
+        <input type="text" id="price" placeholder="$0.00" readonly>
       </div>
 
       <button type="submit" class="checkout-button">Proceed to Checkout</button>
@@ -96,163 +92,102 @@
 
 <footer>&copy; 2025 POiVY Studio. All rights reserved.</footer>
 
-<!-- Modal Placeholder -->
-<div id="checkoutModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
-  background: rgba(0,0,0,0.7); z-index: 9999; overflow: auto;">
-  <div style="background: white; margin: 5% auto; padding: 20px; width: 80%;">
-    <button onclick="closeModal()">Close</button>
-    <div id="checkoutContent"></div>
-  </div>
-</div>
-
-<!-- JavaScript -->
 <script>
-  // JavaScript for booking.html
+  const serviceSelect = document.getElementById('service');
+  const serviceVideo = document.getElementById('serviceVideo');
+  const priceField = document.getElementById('price');
+  const bookingForm = document.getElementById('bookingForm');
 
-// DOM Elements
-const serviceSelect = document.getElementById('service');
-const serviceVideo = document.getElementById('serviceVideo');
-const priceField = document.getElementById('price');
-const bookingForm = document.getElementById('bookingForm');
+  serviceSelect.addEventListener('change', () => {
+    const selectedOption = serviceSelect.options[serviceSelect.selectedIndex];
+    const pictureSrc = selectedOption.getAttribute('data-picture');
 
-// Handle service selection
-serviceSelect.addEventListener('change', () => {
-  const selectedOption = serviceSelect.options[serviceSelect.selectedIndex];
-  const videoSrc = selectedOption.getAttribute('data-video');
-  const pictureSrc = selectedOption.getAttribute('data-picture');
+    if (pictureSrc) {
+      const img = document.createElement('img');
+      img.id = 'serviceImage';
+      img.src = pictureSrc;
+      img.alt = 'Service Preview';
+      img.style.width = '100%';
+      img.style.height = '100%';
+      img.style.objectFit = 'cover';
 
-  if (videoSrc) {
-    // Show video
-    serviceVideo.src = videoSrc;
-    serviceVideo.style.display = 'block';
-    const oldImg = document.getElementById('serviceImage');
-    if (oldImg) oldImg.remove();
-    serviceVideo.load();
-    serviceVideo.play();
-  } else if (pictureSrc) {
-    // Replace video with image
-    const img = document.createElement('img');
-    img.id = 'serviceImage';
-    img.src = pictureSrc;
-    img.alt = 'Service Preview';
-    img.style.width = '100%';
-    img.style.height = '100%';
-    img.style.objectFit = 'cover';
-    const parent = serviceVideo.parentNode;
-    serviceVideo.style.display = 'none';
-    const oldImg = document.getElementById('serviceImage');
-    if (oldImg) oldImg.remove();
-    parent.appendChild(img);
-  } else {
-    // No media available
-    serviceVideo.style.display = 'none';
-    const oldImg = document.getElementById('serviceImage');
-    if (oldImg) oldImg.remove();
-  }
-
-  // Pricing logic
-  switch (serviceSelect.value) {
-    case "Video":
-      priceField.value = "$500.00";
-      break;
-    case "Portrait":
-      priceField.value = "$300.00";
-      break;
-    case "Family":
-      priceField.value = "$400.00";
-      break;
-    case "Couple":
-      priceField.value = "$450.00";
-      break;
-    case "BFF":
-      priceField.value = "$450.00";
-      break;
-    default:
-      priceField.value = "$0.00";
-  }
-});
-
-// Handle form submission
-bookingForm.addEventListener('submit', function (e) {
-  e.preventDefault();
-
-  // Validate form fields
-  if (!document.getElementById('name').value.trim()) {
-    alert('Please enter your full name.');
-    return;
-  }
-  if (!document.getElementById('email').value.trim()) {
-    alert('Please enter your email address.');
-    return;
-  }
-  if (!serviceSelect.value) {
-    alert('Please select a service.');
-    return;
-  }
-  if (!document.getElementById('date').value) {
-    alert('Please select a date and time.');
-    return;
-  }
-
-  const selectedOption = serviceSelect.options[serviceSelect.selectedIndex];
-  const mediaSrc = selectedOption.getAttribute('data-video') || selectedOption.getAttribute('data-picture') || 'No media available';
-
-  const bookingDetails = {
-    name: document.getElementById('name').value,
-    email: document.getElementById('email').value,
-    service: serviceSelect.value,
-    date: document.getElementById('date').value,
-    requests: document.getElementById('requests').value,
-    price: priceField.value,
-    media: mediaSrc
-  };
-
-  // Save booking details to Google Sheets
-  const scriptURL = 'https://script.google.com/macros/s/AKfycbxiOh_6NyCfZO4YXyY5M3JEYRXJlKMYt_HpsC1A34qyLoST3I-GPRX_udu5Cu8q34N6Sw/exec'; // Replace with your Google Apps Script Web App URL
-
-  fetch(scriptURL, {
-  method: 'POST',
-  body: JSON.stringify(bookingDetails),
-  headers: {
-    'Content-Type': 'application/json'
-  },
-  mode: 'no-cors' // Add this line
-})
-  .then(() => {
-    alert('Booking saved successfully!');
-    if (confirm('Do you want to add another booking?')) {
-      window.location.href = 'booking.html';
+      const parent = serviceVideo.parentNode;
+      serviceVideo.style.display = 'none';
+      const oldImg = document.getElementById('serviceImage');
+      if (oldImg) oldImg.remove();
+      parent.appendChild(img);
     } else {
-      window.location.href = 'checkout.html';
+      serviceVideo.style.display = 'none';
+      const oldImg = document.getElementById('serviceImage');
+      if (oldImg) oldImg.remove();
     }
-  })
-  .catch(error => {
-    console.error('Error:', error);
-    alert('An error occurred while saving the booking. Please try again later.');
-  });
-});
 
-// Navbar shrink on scroll
-const navbar = document.querySelector('.navbar');
-window.addEventListener('scroll', function () {
-  if (window.scrollY > 50) {
-    navbar.classList.add('shrink');
-  } else {
-    navbar.classList.remove('shrink');
+    switch (serviceSelect.value) {
+      case "Video": priceField.value = "$500.00"; break;
+      case "Portrait": priceField.value = "$300.00"; break;
+      case "Family": priceField.value = "$400.00"; break;
+      case "Couple": priceField.value = "$450.00"; break;
+      case "BFF": priceField.value = "$450.00"; break;
+      default: priceField.value = "$0.00";
+    }
+  });
+
+  bookingForm.addEventListener('submit', function (e) {
+    e.preventDefault();
+
+    const name = document.getElementById('name').value.trim();
+    const email = document.getElementById('email').value.trim();
+    const service = serviceSelect.value;
+    const date = document.getElementById('date').value;
+    const requests = document.getElementById('requests').value;
+    const price = priceField.value;
+    const selectedOption = serviceSelect.options[serviceSelect.selectedIndex];
+    const media = selectedOption.getAttribute('data-picture') || '';
+
+    const bookingDetails = { name, email, service, date, requests, price, media };
+
+    // ✅ Save to localStorage
+    let existingBookings = JSON.parse(localStorage.getItem('bookingDetails')) || [];
+    existingBookings.push(bookingDetails);
+    localStorage.setItem('bookingDetails', JSON.stringify(existingBookings));
+
+    // ✅ Send to Google Sheets (optional)
+    const scriptURL = 'https://script.google.com/macros/s/AKfycbxiOh_6NyCfZO4YXyY5M3JEYRXJlKMYt_HpsC1A34qyLoST3I-GPRX_udu5Cu8q34N6Sw/exec';
+
+    fetch(scriptURL, {
+      method: 'POST',
+      body: JSON.stringify(bookingDetails),
+      headers: { 'Content-Type': 'application/json' },
+      mode: 'no-cors'
+    }).then(() => {
+      alert('Booking saved successfully!');
+      if (confirm('Do you want to add another booking?')) {
+        window.location.href = 'booking.html';
+      } else {
+        window.location.href = 'checkout.html';
+      }
+    }).catch(error => {
+      console.error('Error:', error);
+      alert('An error occurred while saving the booking.');
+    });
+  });
+
+  // Hamburger menu toggle
+  const hamburger = document.querySelector('.hamburger');
+  const navlinks = document.querySelector('.navlinks');
+  if (hamburger && navlinks) {
+    hamburger.addEventListener('click', () => {
+      navlinks.classList.toggle('active');
+    });
   }
-});
 
-// Hamburger menu toggle
-const hamburger = document.querySelector('.hamburger');
-const navlinks = document.querySelector('.navlinks');
-if (hamburger && navlinks) {
-  hamburger.addEventListener('click', function () {
-    navlinks.classList.toggle('active');
+  // Navbar shrink on scroll
+  const navbar = document.querySelector('.navbar');
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > 50) navbar.classList.add('shrink');
+    else navbar.classList.remove('shrink');
   });
-}
 </script>
-
-<script src="js/home.js"></script>
 
 </body>
 </html>
